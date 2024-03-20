@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../../../../projects/python/ohtel-admin"
+		},
+		{
+			"path": "../../../../projects/python/ohtel-server"
+		},
+		{
+			"path": "../.."
+		}
+	],
+	"settings": {}
+}
