@@ -19,7 +19,7 @@ export default function SignUp() {
     try {
       setLoading(true);
       seterrorMessage(null);
-      const res = await fetch("/api/auth/singup", {
+      const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(formData),
