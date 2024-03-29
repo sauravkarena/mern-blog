@@ -1,24 +1,28 @@
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import { useState } from "react";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../redux/user/userSlice";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
-  const [errorMessage, seterrorMessage] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const {loading, error: errorMessage} = useSelector(state => state.user);
+  const dispathch = useDispatch();
   const naviagte = useNavigate();
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
-      return seterrorMessage("Please fill all fields..");
+      return dispathch(signInFailure("Please fill all the fields...."))
     }
     try {
-      setLoading(true);
-      seterrorMessage(null);
+      dispathch(signInStart());      
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: { "Content-type": "application/json" },
@@ -26,14 +30,14 @@ export default function SignIn() {
       });
       const data = await res.json();
       if (data.success === false) {
-        return seterrorMessage(data.message);
-      }
-      setLoading(false);
-      if(res.ok){
-        naviagte('/');
+        dispathch(signInFailure(data.message));
+      }      
+      if (res.ok) {
+        dispathch(signInSuccess(data));
+        naviagte("/");
       }
     } catch (error) {
-      return seterrorMessage(error.message);
+      dispathch(signInFailure(error.message));
     }
   };
   return (
@@ -55,7 +59,7 @@ export default function SignIn() {
         {/* right */}
 
         <div className="flex-1">
-          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>            
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <div>
               <Label value="Your email" />
               <TextInput
