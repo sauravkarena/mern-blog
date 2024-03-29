@@ -7,6 +7,7 @@ import {
   signInSuccess,
   signInFailure,
 } from '../redux/user/userSlice';
+import OAuth from '../components/OAuth';
 
 
 export default function SignIn() {
@@ -49,7 +50,7 @@ export default function SignIn() {
         <div className='flex-1'>
           <Link to='/' className='text-4xl font-bold dark:text-white'>
             <span className='px-2 py-1 text-white rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500'>
-              Sahand's
+              Saurav's
             </span>
             Blog
           </Link>
@@ -94,7 +95,7 @@ export default function SignIn() {
                 'Sign In'
               )}
             </Button>
-          
+          <OAuth />
           </form>
           <div className='flex gap-2 mt-5 text-sm'>
             <span>Dont Have an account?</span>
